@@ -10,6 +10,7 @@ const Terminal = {
   locked: false,
 
   init(containerId) {
+    this.locked = false;
     this.element = document.getElementById(containerId);
     this.element.innerHTML = '';
     this.element.className = 'terminal';
