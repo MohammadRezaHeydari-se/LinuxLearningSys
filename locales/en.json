@@ -1,0 +1,412 @@
+{
+  "ui": {
+    "appTitle": "Linux Learning System",
+    "language": "Language",
+    "lesson": "Lesson",
+    "step": "Step",
+    "of": "of",
+    "typeCommand": "Type the command below and press Enter:",
+    "expectedCommand": "Expected:",
+    "correct": "✓ Correct! Well done!",
+    "incorrect": "✗ Not quite. Try again.",
+    "hint": "Hint:",
+    "nextStep": "Next Step →",
+    "previousStep": "← Previous",
+    "startLesson": "Start Lesson",
+    "lessonComplete": "🎉 Lesson Complete!",
+    "courseComplete": "🏆 Congratulations! You've completed all lessons!",
+    "summary": "Summary",
+    "whatYouLearned": "What you learned:",
+    "backToLessons": "← Back to Lessons",
+    "selectLesson": "Select a lesson to begin:",
+    "completed": "Completed",
+    "inProgress": "In Progress",
+    "locked": "Locked",
+    "typeHere": "Type a command...",
+    "simulatedPrompt": "user@linux:~$",
+    "welcomeMessage": "Welcome to Linux Learning System!\nType your first command to begin learning.",
+    "tabComplete": "Press Tab to see available commands for this step",
+    "resetProgress": "Reset Progress",
+    "resetConfirm": "Are you sure you want to reset all progress?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "lessons": [
+    {
+      "id": "navigation",
+      "title": "Navigating the Filesystem",
+      "description": "Learn how to move around the Linux filesystem using pwd, ls, and cd.",
+      "icon": "📁",
+      "steps": [
+        {
+          "id": "pwd",
+          "instruction": "Print the current working directory",
+          "description": "The <code>pwd</code> command prints the full path of your current directory. It stands for 'Print Working Directory'.",
+          "command": "pwd",
+          "expectedOutput": "/home/user",
+          "summary": "You learned that <code>pwd</code> shows you where you are in the filesystem."
+        },
+        {
+          "id": "ls",
+          "instruction": "List files in the current directory",
+          "description": "The <code>ls</code> command lists files and directories in your current location.",
+          "command": "ls",
+          "expectedOutput": "Documents  Downloads  Desktop  Music  Pictures",
+          "summary": "You learned that <code>ls</code> shows the contents of a directory."
+        },
+        {
+          "id": "ls-la",
+          "instruction": "List files with details (hidden files included)",
+          "description": "Adding <code>-la</code> flags shows all files (including hidden ones) with permissions, size, and modification dates.",
+          "command": "ls -la",
+          "expectedOutput": "total 32\ndrwxr-xr-x  2 user user 4096 ...",
+          "summary": "The <code>ls -la</code> combination gives a detailed view including hidden files."
+        },
+        {
+          "id": "cd-tmp",
+          "instruction": "Change to the /tmp directory",
+          "description": "The <code>cd</code> command changes your current directory. <code>/tmp</code> is a temporary directory on Linux.",
+          "command": "cd /tmp",
+          "expectedOutput": "",
+          "summary": "You navigated to <code>/tmp</code> using <code>cd /tmp</code>."
+        },
+        {
+          "id": "cd-home",
+          "instruction": "Return to your home directory",
+          "description": "Using <code>cd ~</code> or just <code>cd</code> returns you to your home directory.",
+          "command": "cd ~",
+          "expectedOutput": "",
+          "summary": "The <code>~</code> shortcut always refers to your home directory."
+        },
+        {
+          "id": "cd-parent",
+          "instruction": "Go up one directory level",
+          "description": "The <code>..</code> special directory refers to the parent directory.",
+          "command": "cd ..",
+          "expectedOutput": "",
+          "summary": "You learned that <code>cd ..</code> moves you up one directory level."
+        }
+      ]
+    },
+    {
+      "id": "file-ops",
+      "title": "Working with Files & Directories",
+      "description": "Create, copy, move, and delete files and directories.",
+      "icon": "📄",
+      "steps": [
+        {
+          "id": "touch",
+          "instruction": "Create a new empty file",
+          "description": "The <code>touch</code> command creates an empty file or updates the timestamp of an existing one.",
+          "command": "touch hello.txt",
+          "expectedOutput": "",
+          "summary": "You created a file using <code>touch hello.txt</code>."
+        },
+        {
+          "id": "mkdir",
+          "instruction": "Create a new directory",
+          "description": "The <code>mkdir</code> command creates a new directory.",
+          "command": "mkdir myfolder",
+          "expectedOutput": "",
+          "summary": "You created a directory with <code>mkdir myfolder</code>."
+        },
+        {
+          "id": "cp",
+          "instruction": "Copy a file",
+          "description": "The <code>cp</code> command copies files from source to destination.",
+          "command": "cp hello.txt hello_copy.txt",
+          "expectedOutput": "",
+          "summary": "You copied a file using <code>cp hello.txt hello_copy.txt</code>."
+        },
+        {
+          "id": "mv",
+          "instruction": "Rename or move a file",
+          "description": "The <code>mv</code> command moves or renames files.",
+          "command": "mv hello_copy.txt renamed.txt",
+          "expectedOutput": "",
+          "summary": "You renamed a file using <code>mv</code>."
+        },
+        {
+          "id": "rm",
+          "instruction": "Remove a file",
+          "description": "The <code>rm</code> command deletes files. Be careful — there is no trash bin in the terminal!",
+          "command": "rm renamed.txt",
+          "expectedOutput": "",
+          "summary": "You deleted a file with <code>rm</code>. Always double-check before deleting!"
+        }
+      ]
+    },
+    {
+      "id": "view-files",
+      "title": "Viewing File Contents",
+      "description": "Learn how to view and inspect file contents using cat, head, tail, and wc.",
+      "icon": "👁️",
+      "steps": [
+        {
+          "id": "cat",
+          "instruction": "Display the contents of a file",
+          "description": "The <code>cat</code> command (concatenate) displays the entire content of a file.",
+          "command": "cat /etc/passwd",
+          "expectedOutput": "root:x:0:0:root:/root:/bin/bash\n...",
+          "summary": "You used <code>cat</code> to display a file's contents."
+        },
+        {
+          "id": "head",
+          "instruction": "Show the first 10 lines of a file",
+          "description": "The <code>head</code> command shows the beginning of a file. By default it shows 10 lines.",
+          "command": "head /etc/passwd",
+          "expectedOutput": "root:x:0:0:root:/root:/bin/bash\n...",
+          "summary": "You used <code>head</code> to view the first lines of a file."
+        },
+        {
+          "id": "tail",
+          "instruction": "Show the last 10 lines of a file",
+          "description": "The <code>tail</code> command shows the end of a file. Useful for logs!",
+          "command": "tail /etc/passwd",
+          "expectedOutput": "...\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin",
+          "summary": "You used <code>tail</code> to see the last lines of a file."
+        },
+        {
+          "id": "wc",
+          "instruction": "Count lines, words, and characters in a file",
+          "description": "The <code>wc</code> command (word count) shows line, word, and character counts.",
+          "command": "wc /etc/passwd",
+          "expectedOutput": "  30   50  1500 /etc/passwd",
+          "summary": "The <code>wc</code> command counts lines, words, and characters in files."
+        }
+      ]
+    },
+    {
+      "id": "permissions",
+      "title": "File Permissions",
+      "description": "Understand and modify file permissions with chmod and chown.",
+      "icon": "🔒",
+      "steps": [
+        {
+          "id": "chmod-x",
+          "instruction": "Add execute permission to a file",
+          "description": "The <code>chmod</code> command changes file permissions. <code>+x</code> adds execute permission.",
+          "command": "chmod +x script.sh",
+          "expectedOutput": "",
+          "summary": "You added execute permission with <code>chmod +x</code>."
+        },
+        {
+          "id": "chmod-755",
+          "instruction": "Set permissions to 755 (rwxr-xr-x)",
+          "description": "Numeric mode: 7=rwx, 5=r-x, 5=r-x. Owner gets full access, others read/execute.",
+          "command": "chmod 755 script.sh",
+          "expectedOutput": "",
+          "summary": "Numeric permissions: <code>chmod 755</code> = rwxr-xr-x."
+        },
+        {
+          "id": "chown",
+          "instruction": "Change the owner of a file",
+          "description": "The <code>chown</code> command changes file ownership. Format: <code>chown owner:group file</code>.",
+          "command": "chown root:root script.sh",
+          "expectedOutput": "",
+          "summary": "You changed file ownership with <code>chown</code>."
+        }
+      ]
+    },
+    {
+      "id": "text-processing",
+      "title": "Searching & Text Processing",
+      "description": "Search and process text using grep, sort, and cut.",
+      "icon": "🔍",
+      "steps": [
+        {
+          "id": "grep",
+          "instruction": "Search for a pattern in a file",
+          "description": "The <code>grep</code> command searches for patterns in files. It's one of the most powerful Linux commands.",
+          "command": "grep root /etc/passwd",
+          "expectedOutput": "root:x:0:0:root:/root:/bin/bash",
+          "summary": "You used <code>grep</code> to search for lines containing 'root'."
+        },
+        {
+          "id": "grep-i",
+          "instruction": "Case-insensitive search",
+          "description": "The <code>-i</code> flag makes the search case-insensitive.",
+          "command": "grep -i root /etc/passwd",
+          "expectedOutput": "...",
+          "summary": "The <code>-i</code> flag makes <code>grep</code> ignore case."
+        },
+        {
+          "id": "sort",
+          "instruction": "Sort lines alphabetically",
+          "description": "The <code>sort</code> command sorts lines in a file alphabetically.",
+          "command": "sort /etc/passwd",
+          "expectedOutput": "...",
+          "summary": "You used <code>sort</code> to alphabetically sort file contents."
+        },
+        {
+          "id": "cut",
+          "instruction": "Cut specific fields from each line",
+          "description": "The <code>cut</code> command extracts columns or fields from text. Here we extract usernames using <code>:</code> delimiter.",
+          "command": "cut -d: -f1 /etc/passwd",
+          "expectedOutput": "root\ndaemon\nbin\n...",
+          "summary": "You extracted the first field (username) using <code>cut -d: -f1</code>."
+        }
+      ]
+    },
+    {
+      "id": "processes",
+      "title": "Process Management",
+      "description": "Manage running processes with ps, top, and kill.",
+      "icon": "⚙️",
+      "steps": [
+        {
+          "id": "ps",
+          "instruction": "List running processes",
+          "description": "The <code>ps</code> command shows a snapshot of current processes.",
+          "command": "ps",
+          "expectedOutput": "  PID TTY          TIME CMD\n 1234 pts/0    00:00:00 bash\n 5678 pts/0    00:00:00 ps",
+          "summary": "The <code>ps</code> command lists your running processes."
+        },
+        {
+          "id": "ps-aux",
+          "instruction": "List all processes with details",
+          "description": "The <code>ps aux</code> combination shows all processes from all users with detailed information.",
+          "command": "ps aux",
+          "expectedOutput": "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.5  98765  1234 ?        Ss   ...",
+          "summary": "You used <code>ps aux</code> to view all system processes."
+        },
+        {
+          "id": "kill",
+          "instruction": "Terminate a process by PID",
+          "description": "The <code>kill</code> command sends a signal to a process. SIGTERM (15) asks it to terminate gracefully.",
+          "command": "kill 1234",
+          "expectedOutput": "",
+          "summary": "You sent a termination signal with <code>kill</code>."
+        }
+      ]
+    },
+    {
+      "id": "networking",
+      "title": "Networking Basics",
+      "description": "Learn basic networking commands: ping, curl, and ss.",
+      "icon": "🌐",
+      "steps": [
+        {
+          "id": "ping",
+          "instruction": "Test network connectivity",
+          "description": "The <code>ping</code> command sends ICMP echo requests to test if a host is reachable.",
+          "command": "ping -c 4 8.8.8.8",
+          "expectedOutput": "PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.\n64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.3 ms\n...",
+          "summary": "You used <code>ping -c 4</code> to send 4 ICMP packets to Google's DNS."
+        },
+        {
+          "id": "curl",
+          "instruction": "Fetch a URL from the command line",
+          "description": "The <code>curl</code> command transfers data to/from servers using various protocols.",
+          "command": "curl https://example.com",
+          "expectedOutput": "<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n...</html>",
+          "summary": "You fetched a webpage using <code>curl</code>."
+        },
+        {
+          "id": "ss",
+          "instruction": "Display socket statistics",
+          "description": "The <code>ss</code> command shows network socket information. It's the modern replacement for netstat.",
+          "command": "ss -tln",
+          "expectedOutput": "State      Recv-Q Send-Q  Local Address:Port  Peer Address:Port\nLISTEN     0      128     0.0.0.0:22          0.0.0.0:*",
+          "summary": "You viewed listening TCP sockets with <code>ss -tln</code>."
+        }
+      ]
+    },
+    {
+      "id": "archives",
+      "title": "Archives & Compression",
+      "description": "Create and extract archives using tar, gzip, and zip.",
+      "icon": "📦",
+      "steps": [
+        {
+          "id": "tar-create",
+          "instruction": "Create a tar.gz archive",
+          "description": "The <code>tar</code> command creates archives. <code>-czf</code> = create, gzip, file.",
+          "command": "tar -czf archive.tar.gz myfolder",
+          "expectedOutput": "",
+          "summary": "You created a compressed archive with <code>tar -czf</code>."
+        },
+        {
+          "id": "tar-extract",
+          "instruction": "Extract a tar.gz archive",
+          "description": "The <code>-xzf</code> flags extract a gzip-compressed tar archive.",
+          "command": "tar -xzf archive.tar.gz",
+          "expectedOutput": "",
+          "summary": "You extracted an archive with <code>tar -xzf</code>."
+        },
+        {
+          "id": "zip",
+          "instruction": "Create a zip archive",
+          "description": "The <code>zip</code> command creates a ZIP archive. <code>-r</code> makes it recursive (include subdirectories).",
+          "command": "zip -r archive.zip myfolder",
+          "expectedOutput": "",
+          "summary": "You created a ZIP archive with <code>zip -r</code>."
+        },
+        {
+          "id": "unzip",
+          "instruction": "Extract a zip archive",
+          "description": "The <code>unzip</code> command extracts ZIP archives.",
+          "command": "unzip archive.zip",
+          "expectedOutput": "",
+          "summary": "You extracted a ZIP archive with <code>unzip</code>."
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "title": "User & Group Management",
+      "description": "Manage users and groups with whoami, id, useradd, and passwd.",
+      "icon": "👤",
+      "steps": [
+        {
+          "id": "whoami",
+          "instruction": "Display your username",
+          "description": "The <code>whoami</code> command simply prints your current username.",
+          "command": "whoami",
+          "expectedOutput": "user",
+          "summary": "You identified yourself with <code>whoami</code>."
+        },
+        {
+          "id": "id",
+          "instruction": "Display user and group IDs",
+          "description": "The <code>id</code> command shows user ID (UID), group ID (GID), and all groups you belong to.",
+          "command": "id",
+          "expectedOutput": "uid=1000(user) gid=1000(user) groups=1000(user),4(adm),27(sudo)",
+          "summary": "You viewed your user identity with <code>id</code>."
+        }
+      ]
+    },
+    {
+      "id": "scripting",
+      "title": "Shell Scripting Basics",
+      "description": "Get started with shell scripting: echo, variables, and loops.",
+      "icon": "💻",
+      "steps": [
+        {
+          "id": "echo",
+          "instruction": "Print text to the terminal",
+          "description": "The <code>echo</code> command prints text to the terminal. It's essential for scripting.",
+          "command": "echo Hello Linux!",
+          "expectedOutput": "Hello Linux!",
+          "summary": "You printed text using <code>echo</code>."
+        },
+        {
+          "id": "variable",
+          "instruction": "Create and use a variable",
+          "description": "In bash, variables are assigned with <code>=</code> (no spaces) and referenced with <code>$</code>.",
+          "command": "NAME=\"World\" && echo $NAME",
+          "expectedOutput": "World",
+          "summary": "You created a variable <code>NAME</code> and referenced it with <code>$NAME</code>."
+        },
+        {
+          "id": "for-loop",
+          "instruction": "Write a simple for loop",
+          "description": "A <code>for</code> loop iterates over a list. The syntax: <code>for var in list; do ...; done</code>.",
+          "command": "for i in 1 2 3; do echo $i; done",
+          "expectedOutput": "1\n2\n3",
+          "summary": "You ran a <code>for</code> loop that printed numbers 1 through 3."
+        }
+      ]
+    }
+  ]
+}

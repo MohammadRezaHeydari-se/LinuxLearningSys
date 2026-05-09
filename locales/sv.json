@@ -1,0 +1,153 @@
+{
+  "ui": {
+    "appTitle": "Linux Inlärningssystem",
+    "language": "Språk",
+    "lesson": "Lektion",
+    "step": "Steg",
+    "of": "av",
+    "typeCommand": "Skriv kommandot nedan och tryck Enter:",
+    "expectedCommand": "Förväntat:",
+    "correct": "✓ Rätt! Bra jobbat!",
+    "incorrect": "✗ Inte riktigt. Försök igen.",
+    "hint": "Tips:",
+    "nextStep": "Nästa steg →",
+    "previousStep": "← Föregående",
+    "startLesson": "Starta lektion",
+    "lessonComplete": "🎉 Lektionen klar!",
+    "courseComplete": "🏆 Grattis! Du har genomfört alla lektioner!",
+    "summary": "Sammanfattning",
+    "whatYouLearned": "Vad du lärde dig:",
+    "backToLessons": "← Tillbaka till lektioner",
+    "selectLesson": "Välj en lektion för att börja:",
+    "completed": "Klar",
+    "inProgress": "Pågående",
+    "locked": "Låst",
+    "typeHere": "Skriv ett kommando...",
+    "simulatedPrompt": "anvandare@linux:~$",
+    "welcomeMessage": "Välkommen till Linux Inlärningssystem!\nSkriv ditt första kommando för att börja lära dig.",
+    "tabComplete": "Tryck Tab för att se tillgängliga kommandon för detta steg",
+    "resetProgress": "Återställ framsteg",
+    "resetConfirm": "Är du säker på att du vill återställa alla framsteg?",
+    "yes": "Ja",
+    "no": "Nej"
+  },
+  "lessons": [
+    {
+      "id": "navigation",
+      "title": "Navigera i filsystemet",
+      "description": "Lär dig att röra dig i Linux filsystem med pwd, ls och cd.",
+      "icon": "📁",
+      "steps": [
+        { "id": "pwd", "instruction": "Skriv ut aktuell arbetskatalog", "description": "Kommandot <code>pwd</code> skriver ut hela sökvägen till din aktuella katalog.", "command": "pwd", "expectedOutput": "/home/anvandare", "summary": "Du lärde dig att <code>pwd</code> visar var du är i filsystemet." },
+        { "id": "ls", "instruction": "Lista filer i aktuell katalog", "description": "Kommandot <code>ls</code> listar filer och kataloger på din aktuella plats.", "command": "ls", "expectedOutput": "Dokument  Nedladdningar  Skrivbord  Musik  Bilder", "summary": "Du lärde dig att <code>ls</code> visar innehållet i en katalog." },
+        { "id": "ls-la", "instruction": "Lista filer med detaljer (inklusive dolda)", "description": "Flaggan <code>-la</code> visar alla filer (inklusive dolda) med rättigheter, storlek och datum.", "command": "ls -la", "expectedOutput": "total 32\ndrwxr-xr-x  2 user user 4096 ...", "summary": "Kombinationen <code>ls -la</code> ger en detaljerad vy inklusive dolda filer." },
+        { "id": "cd-tmp", "instruction": "Byt till /tmp-katalogen", "description": "Kommandot <code>cd</code> ändrar din aktuella katalog. <code>/tmp</code> är en temporär katalog.", "command": "cd /tmp", "expectedOutput": "", "summary": "Du navigerade till <code>/tmp</code> med <code>cd /tmp</code>." },
+        { "id": "cd-home", "instruction": "Återgå till din hemkatalog", "description": "Med <code>cd ~</code> eller bara <code>cd</code> återvänder du till din hemkatalog.", "command": "cd ~", "expectedOutput": "", "summary": "Genvägen <code>~</code> refererar alltid till din hemkatalog." },
+        { "id": "cd-parent", "instruction": "Gå upp en katalognivå", "description": "Den speciella katalogen <code>..</code> refererar till föräldrakatalogen.", "command": "cd ..", "expectedOutput": "", "summary": "Du lärde dig att <code>cd ..</code> flyttar dig upp en nivå." }
+      ]
+    },
+    {
+      "id": "file-ops",
+      "title": "Arbeta med filer och kataloger",
+      "description": "Skapa, kopiera, flytta och ta bort filer och kataloger.",
+      "icon": "📄",
+      "steps": [
+        { "id": "touch", "instruction": "Skapa en ny tom fil", "description": "Kommandot <code>touch</code> skapar en tom fil eller uppdaterar tidsstämpeln.", "command": "touch hello.txt", "expectedOutput": "", "summary": "Du skapade en fil med <code>touch hello.txt</code>." },
+        { "id": "mkdir", "instruction": "Skapa en ny katalog", "description": "Kommandot <code>mkdir</code> skapar en ny katalog.", "command": "mkdir myfolder", "expectedOutput": "", "summary": "Du skapade en katalog med <code>mkdir myfolder</code>." },
+        { "id": "cp", "instruction": "Kopiera en fil", "description": "Kommandot <code>cp</code> kopierar filer från källa till mål.", "command": "cp hello.txt hello_copy.txt", "expectedOutput": "", "summary": "Du kopierade en fil med <code>cp hello.txt hello_copy.txt</code>." },
+        { "id": "mv", "instruction": "Byt namn på eller flytta en fil", "description": "Kommandot <code>mv</code> flyttar eller byter namn på filer.", "command": "mv hello_copy.txt renamed.txt", "expectedOutput": "", "summary": "Du bytte namn på en fil med <code>mv</code>." },
+        { "id": "rm", "instruction": "Ta bort en fil", "description": "Kommandot <code>rm</code> tar bort filer. Var försiktig — det finns ingen papperskorg i terminalen!", "command": "rm renamed.txt", "expectedOutput": "", "summary": "Du tog bort en fil med <code>rm</code>. Dubbelkolla alltid innan du tar bort!" }
+      ]
+    },
+    {
+      "id": "view-files",
+      "title": "Visa filinnehåll",
+      "description": "Lär dig att visa filinnehåll med cat, head, tail och wc.",
+      "icon": "👁️",
+      "steps": [
+        { "id": "cat", "instruction": "Visa innehållet i en fil", "description": "Kommandot <code>cat</code> (concatenate) visar hela filinnehållet.", "command": "cat /etc/passwd", "expectedOutput": "root:x:0:0:root:/root:/bin/bash\n...", "summary": "Du använde <code>cat</code> för att visa en fils innehåll." },
+        { "id": "head", "instruction": "Visa de första 10 raderna i en fil", "description": "Kommandot <code>head</code> visar början av en fil. Som standard visas 10 rader.", "command": "head /etc/passwd", "expectedOutput": "root:x:0:0:root:/root:/bin/bash\n...", "summary": "Du använde <code>head</code> för att visa de första raderna." },
+        { "id": "tail", "instruction": "Visa de sista 10 raderna i en fil", "description": "Kommandot <code>tail</code> visar slutet av en fil. Användbart för loggar!", "command": "tail /etc/passwd", "expectedOutput": "...\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin", "summary": "Du använde <code>tail</code> för att se de sista raderna." },
+        { "id": "wc", "instruction": "Räkna rader, ord och tecken i en fil", "description": "Kommandot <code>wc</code> (word count) visar antal rader, ord och tecken.", "command": "wc /etc/passwd", "expectedOutput": "  30   50  1500 /etc/passwd", "summary": "Kommandot <code>wc</code> räknar rader, ord och tecken i filer." }
+      ]
+    },
+    {
+      "id": "permissions",
+      "title": "Filrättigheter",
+      "description": "Förstå och ändra filrättigheter med chmod och chown.",
+      "icon": "🔒",
+      "steps": [
+        { "id": "chmod-x", "instruction": "Lägg till körrättighet till en fil", "description": "Kommandot <code>chmod</code> ändrar filrättigheter. <code>+x</code> lägger till körrättighet.", "command": "chmod +x script.sh", "expectedOutput": "", "summary": "Du lade till körrättighet med <code>chmod +x</code>." },
+        { "id": "chmod-755", "instruction": "Sätt rättigheter till 755 (rwxr-xr-x)", "description": "Numeriskt läge: 7=rwx, 5=r-x, 5=r-x. Ägaren får full åtkomst, andra läsa/köra.", "command": "chmod 755 script.sh", "expectedOutput": "", "summary": "Numeriska rättigheter: <code>chmod 755</code> = rwxr-xr-x." },
+        { "id": "chown", "instruction": "Ändra ägare av en fil", "description": "Kommandot <code>chown</code> ändrar filägarskap. Format: <code>chown ägare:grupp fil</code>.", "command": "chown root:root script.sh", "expectedOutput": "", "summary": "Du ändrade filägarskap med <code>chown</code>." }
+      ]
+    },
+    {
+      "id": "text-processing",
+      "title": "Sökning och textbearbetning",
+      "description": "Sök och bearbeta text med grep, sort och cut.",
+      "icon": "🔍",
+      "steps": [
+        { "id": "grep", "instruction": "Sök efter ett mönster i en fil", "description": "Kommandot <code>grep</code> söker efter mönster i filer.", "command": "grep root /etc/passwd", "expectedOutput": "root:x:0:0:root:/root:/bin/bash", "summary": "Du använde <code>grep</code> för att söka efter rader med 'root'." },
+        { "id": "grep-i", "instruction": "Skiftlägesokänslig sökning", "description": "Flaggan <code>-i</code> gör sökningen skiftlägesokänslig.", "command": "grep -i root /etc/passwd", "expectedOutput": "...", "summary": "Flaggan <code>-i</code> gör <code>grep</code> skiftlägesokänslig." },
+        { "id": "sort", "instruction": "Sortera rader alfabetiskt", "description": "Kommandot <code>sort</code> sorterar rader i en fil alfabetiskt.", "command": "sort /etc/passwd", "expectedOutput": "...", "summary": "Du använde <code>sort</code> för att sortera filinnehåll." },
+        { "id": "cut", "instruction": "Extrahera specifika fält från varje rad", "description": "Kommandot <code>cut</code> extraherar kolumner från text. Här extraherar vi användarnamn med <code>:</code>-avgränsare.", "command": "cut -d: -f1 /etc/passwd", "expectedOutput": "root\ndaemon\nbin\n...", "summary": "Du extraherade första fältet (användarnamn) med <code>cut -d: -f1</code>." }
+      ]
+    },
+    {
+      "id": "processes",
+      "title": "Processhantering",
+      "description": "Hantera aktiva processer med ps, top och kill.",
+      "icon": "⚙️",
+      "steps": [
+        { "id": "ps", "instruction": "Lista aktiva processer", "description": "Kommandot <code>ps</code> visar en ögonblicksbild av aktiva processer.", "command": "ps", "expectedOutput": "  PID TTY          TIME CMD\n 1234 pts/0    00:00:00 bash\n 5678 pts/0    00:00:00 ps", "summary": "Kommandot <code>ps</code> listar dina aktiva processer." },
+        { "id": "ps-aux", "instruction": "Lista alla processer med detaljer", "description": "Kombinationen <code>ps aux</code> visar alla processer från alla användare.", "command": "ps aux", "expectedOutput": "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\nroot         1  0.0  0.5  98765  1234 ?        Ss   ...", "summary": "Du använde <code>ps aux</code> för att se alla systemprocesser." },
+        { "id": "kill", "instruction": "Avsluta en process med PID", "description": "Kommandot <code>kill</code> skickar en signal till en process. SIGTERM (15) ber den avslutas.", "command": "kill 1234", "expectedOutput": "", "summary": "Du skickade en avslutningssignal med <code>kill</code>." }
+      ]
+    },
+    {
+      "id": "networking",
+      "title": "Nätverksgrunder",
+      "description": "Lär dig grundläggande nätverkskommandon: ping, curl och ss.",
+      "icon": "🌐",
+      "steps": [
+        { "id": "ping", "instruction": "Testa nätverksanslutning", "description": "Kommandot <code>ping</code> skickar ICMP-echo-förfrågningar för att testa om en värd kan nås.", "command": "ping -c 4 8.8.8.8", "expectedOutput": "PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.\n64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.3 ms\n...", "summary": "Du använde <code>ping -c 4</code> för att skicka 4 ICMP-paket." },
+        { "id": "curl", "instruction": "Hämta en URL från kommandoraden", "description": "Kommandot <code>curl</code> överför data till/från servrar.", "command": "curl https://example.com", "expectedOutput": "<!doctype html>\n<html>\n<head>\n    <title>Example Domain</title>\n...</html>", "summary": "Du hämtade en webbsida med <code>curl</code>." },
+        { "id": "ss", "instruction": "Visa socket-statistik", "description": "Kommandot <code>ss</code> visar nätverkssocket-information. Det är moderna ersättaren för netstat.", "command": "ss -tln", "expectedOutput": "State      Recv-Q Send-Q  Local Address:Port  Peer Address:Port\nLISTEN     0      128     0.0.0.0:22          0.0.0.0:*", "summary": "Du visade lyssnande TCP-sockets med <code>ss -tln</code>." }
+      ]
+    },
+    {
+      "id": "archives",
+      "title": "Arkiv och komprimering",
+      "description": "Skapa och extrahera arkiv med tar, gzip och zip.",
+      "icon": "📦",
+      "steps": [
+        { "id": "tar-create", "instruction": "Skapa ett tar.gz-arkiv", "description": "Kommandot <code>tar</code> skapar arkiv. <code>-czf</code> = skapa, gzip, fil.", "command": "tar -czf archive.tar.gz myfolder", "expectedOutput": "", "summary": "Du skapade ett komprimerat arkiv med <code>tar -czf</code>." },
+        { "id": "tar-extract", "instruction": "Extrahera ett tar.gz-arkiv", "description": "Flaggorna <code>-xzf</code> extraherar ett gzip-komprimerat tar-arkiv.", "command": "tar -xzf archive.tar.gz", "expectedOutput": "", "summary": "Du extraherade ett arkiv med <code>tar -xzf</code>." },
+        { "id": "zip", "instruction": "Skapa ett zip-arkiv", "description": "Kommandot <code>zip</code> skapar ett ZIP-arkiv. <code>-r</code> gör det rekursivt.", "command": "zip -r archive.zip myfolder", "expectedOutput": "", "summary": "Du skapade ett ZIP-arkiv med <code>zip -r</code>." },
+        { "id": "unzip", "instruction": "Extrahera ett zip-arkiv", "description": "Kommandot <code>unzip</code> extraherar ZIP-arkiv.", "command": "unzip archive.zip", "expectedOutput": "", "summary": "Du extraherade ett ZIP-arkiv med <code>unzip</code>." }
+      ]
+    },
+    {
+      "id": "users",
+      "title": "Användar- och grupphantering",
+      "description": "Hantera användare och grupper med whoami, id, useradd och passwd.",
+      "icon": "👤",
+      "steps": [
+        { "id": "whoami", "instruction": "Visa ditt användarnamn", "description": "Kommandot <code>whoami</code> skriver ut ditt aktuella användarnamn.", "command": "whoami", "expectedOutput": "anvandare", "summary": "Du identifierade dig med <code>whoami</code>." },
+        { "id": "id", "instruction": "Visa användar- och grupp-ID:n", "description": "Kommandot <code>id</code> visar användar-ID (UID), grupp-ID (GID) och alla grupper.", "command": "id", "expectedOutput": "uid=1000(anvandare) gid=1000(anvandare) groups=1000(anvandare),4(adm),27(sudo)", "summary": "Du visade din användaridentitet med <code>id</code>." }
+      ]
+    },
+    {
+      "id": "scripting",
+      "title": "Shell-skriptning grunder",
+      "description": "Kom igång med shell-skriptning: echo, variabler och loopar.",
+      "icon": "💻",
+      "steps": [
+        { "id": "echo", "instruction": "Skriv ut text i terminalen", "description": "Kommandot <code>echo</code> skriver ut text i terminalen. Det är viktigt för skriptning.", "command": "echo Hej Linux!", "expectedOutput": "Hej Linux!", "summary": "Du skrev ut text med <code>echo</code>." },
+        { "id": "variable", "instruction": "Skapa och använd en variabel", "description": "I bash tilldelas variabler med <code>=</code> (inga mellanslag) och refereras med <code>$</code>.", "command": "NAMN=\"Varlden\" && echo $NAMN", "expectedOutput": "Varlden", "summary": "Du skapade en variabel <code>NAMN</code> och refererade den med <code>$NAMN</code>." },
+        { "id": "for-loop", "instruction": "Skriv en enkel for-loop", "description": "En <code>for</code>-loop itererar över en lista. Syntax: <code>for var in lista; do ...; done</code>.", "command": "for i in 1 2 3; do echo $i; done", "expectedOutput": "1\n2\n3", "summary": "Du körde en <code>for</code>-loop som skrev ut siffrorna 1 till 3." }
+      ]
+    }
+  ]
+}
