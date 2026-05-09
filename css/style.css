@@ -472,6 +472,24 @@ html, body {
   margin-top: 12px;
 }
 
+.step-done-msg {
+  color: var(--accent-green);
+  padding: 8px 12px;
+  background: rgba(63, 185, 80, 0.1);
+  border: 1px solid rgba(63, 185, 80, 0.25);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.step-already-done {
+  color: var(--accent-green);
+  font-size: 0.85rem;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: rgba(63, 185, 80, 0.08);
+  border-radius: 6px;
+}
+
 /* Lesson Complete */
 .lesson-complete {
   text-align: center;

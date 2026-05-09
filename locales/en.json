@@ -29,7 +29,10 @@
     "resetProgress": "Reset Progress",
     "resetConfirm": "Are you sure you want to reset all progress?",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "sandboxWelcome": "Try any command — the sandbox is yours to explore.",
+    "typeTarget": "Type the command above to complete this step.",
+    "practiceOrMove": "You can keep practicing, or move to the next step."
   },
   "lessons": [
     {
