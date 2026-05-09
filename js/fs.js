@@ -149,11 +149,23 @@ const VFS = {
     return node;
   },
 
+  abs(path) {
+    if (!path) return this.cwd.path;
+    if (path.startsWith('/')) return path;
+    if (path.startsWith('~/')) return '/home/user/' + path.slice(2);
+    if (path === '~') return '/home/user';
+    if (this.cwd.path === '/') return '/' + path;
+    return this.cwd.path + '/' + path;
+  },
+
   resolveDir(path) {
     const node = this.resolve(path);
     if (node instanceof FSDir) return node;
-    const parent = path ? this.resolveDir(path.split('/').slice(0, -1).join('/') || '/') : this.cwd;
-    return parent || this.cwd;
+    const p = this.abs(path);
+    const parts = p.split('/').filter(Boolean);
+    parts.pop();
+    const parentPath = '/' + parts.join('/');
+    return this.resolve(parentPath) || this.cwd;
   },
 
   pwd() {
@@ -219,10 +231,11 @@ const VFS = {
   },
 
   touch(path, content = '') {
-    const name = path.split('/').pop();
-    const parentPath = path.split('/').slice(0, -1).join('/') || '/';
-    const parent = this.resolveDir(parentPath);
-    if (!parent) {
+    const p = this.abs(path);
+    const name = p.split('/').filter(Boolean).pop();
+    const parentPath = '/' + p.split('/').filter(Boolean).slice(0, -1).join('/');
+    const parent = this.resolve(parentPath);
+    if (!parent || !(parent instanceof FSDir)) {
       this.lastOutput = `touch: ${path}: No such file or directory`;
       return false;
     }
@@ -233,17 +246,17 @@ const VFS = {
       this.lastOutput = '';
       return true;
     }
-    const file = new FSFile(name, parent, content);
-    parent.add(file);
+    parent.add(new FSFile(name, parent, content));
     this.lastOutput = '';
     return true;
   },
 
   mkdir(path) {
-    const name = path.split('/').pop();
-    const parentPath = path.split('/').slice(0, -1).join('/') || '/';
-    const parent = this.resolveDir(parentPath);
-    if (!parent) {
+    const p = this.abs(path);
+    const name = p.split('/').filter(Boolean).pop();
+    const parentPath = '/' + p.split('/').filter(Boolean).slice(0, -1).join('/');
+    const parent = this.resolve(parentPath);
+    if (!parent || !(parent instanceof FSDir)) {
       this.lastOutput = `mkdir: ${path}: No such file or directory`;
       return false;
     }
@@ -251,8 +264,7 @@ const VFS = {
       this.lastOutput = `mkdir: ${name}: File exists`;
       return false;
     }
-    const dir = new FSDir(name, parent);
-    parent.add(dir);
+    parent.add(new FSDir(name, parent));
     this.lastOutput = '';
     return true;
   },
@@ -263,10 +275,11 @@ const VFS = {
       this.lastOutput = `cp: ${src}: No such file or directory`;
       return false;
     }
-    const destName = dest.split('/').pop();
-    const destParentPath = dest.split('/').slice(0, -1).join('/') || '/';
-    const destParent = this.resolveDir(destParentPath);
-    if (!destParent) {
+    const dp = this.abs(dest);
+    const destName = dp.split('/').filter(Boolean).pop();
+    const destParentPath = '/' + dp.split('/').filter(Boolean).slice(0, -1).join('/');
+    const destParent = this.resolve(destParentPath);
+    if (!destParent || !(destParent instanceof FSDir)) {
       this.lastOutput = `cp: ${dest}: No such file or directory`;
       return false;
     }
@@ -286,17 +299,16 @@ const VFS = {
   },
 
   copyTree(src, dest) {
-    if (src.type === 'dir') {
-      for (const child of src.children) {
-        if (child.type === 'file') {
-          const f = new FSFile(child.name, dest, child.content);
-          f.mode = child.mode;
-          dest.add(f);
-        } else {
-          const d = new FSDir(child.name, dest);
-          dest.add(d);
-          this.copyTree(child, d);
-        }
+    if (src.type !== 'dir') return;
+    for (const child of src.children) {
+      if (child.type === 'file') {
+        const f = new FSFile(child.name, dest, child.content);
+        f.mode = child.mode;
+        dest.add(f);
+      } else {
+        const d = new FSDir(child.name, dest);
+        dest.add(d);
+        this.copyTree(child, d);
       }
     }
   },
@@ -307,10 +319,11 @@ const VFS = {
       this.lastOutput = `mv: ${src}: No such file or directory`;
       return false;
     }
-    const destName = dest.split('/').pop();
-    const destParentPath = dest.split('/').slice(0, -1).join('/') || '/';
-    const destParent = this.resolveDir(destParentPath);
-    if (!destParent) {
+    const dp = this.abs(dest);
+    const destName = dp.split('/').filter(Boolean).pop();
+    const destParentPath = '/' + dp.split('/').filter(Boolean).slice(0, -1).join('/');
+    const destParent = this.resolve(destParentPath);
+    if (!destParent || !(destParent instanceof FSDir)) {
       this.lastOutput = `mv: ${dest}: No such file or directory`;
       return false;
     }
@@ -472,8 +485,7 @@ const VFS = {
       case 'pwd':
         return { output: this.pwd(), success: true };
       case 'cd': {
-        const target = args[0] || '~';
-        const ok = this.cd(target === '~' ? '/home/user' : target);
+        const ok = this.cd(args[0] || '~');
         return { output: this.lastOutput, success: ok };
       }
       case 'ls': {
