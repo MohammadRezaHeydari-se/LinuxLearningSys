@@ -4,8 +4,9 @@ const App = {
   currentStepIndex: 0,
   currentContainer: null,
 
-  async init() {
-    await I18n.init('en');
+  init() {
+    I18n.init('en');
+    VFS.init();
     this.render();
   },
 
@@ -190,7 +191,24 @@ const App = {
     if (completedSteps.length === lesson.steps.length) {
       container.appendChild(this.renderLessonComplete(lesson));
     } else {
-      this.renderStep(container, lesson, this.currentStepIndex);
+      const split = document.createElement('div');
+      split.className = 'lesson-split';
+
+      const left = document.createElement('div');
+      left.className = 'lesson-left';
+      this.renderStep(left, lesson, this.currentStepIndex);
+      split.appendChild(left);
+
+      const right = document.createElement('div');
+      right.className = 'lesson-right';
+      const desktopContainer = document.createElement('div');
+      desktopContainer.id = 'desktop-panel';
+      right.appendChild(desktopContainer);
+      split.appendChild(right);
+
+      container.appendChild(split);
+
+      setTimeout(() => Desktop.init('desktop-panel'), 50);
     }
   },
 
@@ -235,7 +253,6 @@ const App = {
 
     const stepCard = document.createElement('div');
     stepCard.className = 'step-card';
-
     stepCard.innerHTML = `
       <div class="step-header">
         <span class="step-number">${I18n.t('ui.step')} ${stepIndex + 1} ${I18n.t('ui.of')} ${lesson.steps.length}</span>
@@ -271,12 +288,18 @@ const App = {
     const expected = currentStep.command.trim();
 
     if (cmd.trim() === expected) {
+      const result = VFS.exec(cmd.trim());
+      const hasFsOutput = result.output && result.output.length > 0;
+
       Terminal.writeSuccess(I18n.t('ui.correct'));
-      if (currentStep.expectedOutput) {
+      if (hasFsOutput) {
+        Terminal.writeHtml(`<div class="terminal-simulated-output">${result.output.replace(/\n/g, '<br>')}</div>`);
+      } else if (currentStep.expectedOutput) {
         Terminal.writeHtml(`<div class="terminal-simulated-output">${currentStep.expectedOutput.replace(/\n/g, '<br>')}</div>`);
       }
 
       Steps.markStepComplete(this.currentLessonId, currentStep.id);
+      Desktop.render();
 
       setTimeout(() => {
         const nextStep = Steps.getNextStep(this.currentLessonId, currentStep.id);
@@ -286,10 +309,8 @@ const App = {
           Terminal.writeLine('');
 
           Terminal.lock();
-
           const actionLine = document.createElement('div');
           actionLine.className = 'terminal-line terminal-action';
-
           const continueBtn = document.createElement('button');
           continueBtn.className = 'btn btn-next';
           continueBtn.textContent = I18n.t('ui.nextStep');
