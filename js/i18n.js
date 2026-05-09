@@ -2,17 +2,18 @@ const I18n = {
   currentLang: 'en',
   translations: {},
 
-  async init(lang = 'en') {
+  init(lang = 'en') {
     this.currentLang = lang;
-    await this.load(lang);
+    this.load(lang);
   },
 
-  async load(lang) {
-    try {
-      const res = await fetch(`locales/${lang}.json`);
-      this.translations = await res.json();
-    } catch (e) {
-      console.error(`Failed to load locale: ${lang}`, e);
+  load(lang) {
+    const data = LOCALES[lang];
+    if (data) {
+      this.translations = data;
+    } else {
+      console.error(`Locale not found: ${lang}`);
+      this.translations = LOCALES['en'] || {};
     }
   },
 
@@ -33,9 +34,9 @@ const I18n = {
     return this.translations.lessons.find(l => l.id === id);
   },
 
-  async switchLang(lang) {
+  switchLang(lang) {
     this.currentLang = lang;
-    await this.load(lang);
+    this.load(lang);
     document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
     App.render();
