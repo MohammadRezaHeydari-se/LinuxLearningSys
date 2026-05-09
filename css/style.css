@@ -190,11 +190,6 @@ html, body {
   color: var(--text-secondary);
 }
 
-/* Lesson View */
-.lesson-view {
-  padding: 8px 0;
-}
-
 .btn {
   background: var(--bg-card);
   color: var(--text-primary);
