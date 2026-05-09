@@ -74,10 +74,12 @@ const VFS = {
   root: null,
   cwd: null,
   lastOutput: '',
+  variables: {},
 
   init() {
     this.root = new FSDir('/', null);
     this.cwd = this.root;
+    this.variables = {};
 
     const home = new FSDir('home', this.root);
     this.root.add(home);
@@ -444,6 +446,24 @@ const VFS = {
     const trimmed = cmdStr.trim();
     if (!trimmed) return { output: '', success: true };
 
+    if (trimmed.includes('&&')) {
+      const cmds = trimmed.split('&&').map(s => s.trim()).filter(Boolean);
+      let last = { output: '', success: true };
+      for (const c of cmds) {
+        last = this.exec(c);
+        if (!last.success) return last;
+      }
+      return last;
+    }
+
+    const varMatch = trimmed.match(/^([a-zA-Z_]\w*)=(.*)$/);
+    if (varMatch && !trimmed.includes(' ')) {
+      const val = varMatch[2].replace(/^["']|["']$/g, '');
+      this.variables[varMatch[1]] = val;
+      this.lastOutput = '';
+      return { output: '', success: true };
+    }
+
     const parts = this.parseCommand(trimmed);
     const cmd = parts[0];
     const args = parts.slice(1);
@@ -537,7 +557,8 @@ const VFS = {
       }
       case 'echo': {
         const text = args.join(' ');
-        const cleaned = text.replace(/^["']|["']$/g, '');
+        const resolved = text.replace(/\$(\w+)/g, (_, n) => this.variables[n] || '');
+        const cleaned = resolved.replace(/^["']|["']$/g, '');
         this.lastOutput = cleaned;
         return { output: cleaned, success: true };
       }
@@ -567,18 +588,15 @@ const VFS = {
       case 'unzip':
         return { output: '', success: true };
       case 'for': {
-        if (trimmed.includes(';')) {
-          const parts = trimmed.split(';');
-          const results = parts.map(p => {
-            const pTrimmed = p.trim();
-            if (pTrimmed.startsWith('for ')) return '';
-            if (pTrimmed.startsWith('do echo')) {
-              const varName = pTrimmed.match(/\$(\w+)/);
-              return varName ? varName[1] : '';
-            }
-            if (pTrimmed === 'done') return '';
-            return '';
-          }).filter(Boolean);
+        const fm = trimmed.match(/^for\s+(\w+)\s+in\s+(.+?);\s*do\s+(.+?);\s*done$/);
+        if (fm) {
+          const vn = fm[1], list = fm[2].split(/\s+/), body = fm[3];
+          const results = [];
+          for (const item of list) {
+            const r = body.replace(new RegExp('\\$' + vn, 'g'), item);
+            const res = this.exec(r);
+            if (res.output) results.push(res.output);
+          }
           this.lastOutput = results.join('\n');
           return { output: results.join('\n'), success: true };
         }

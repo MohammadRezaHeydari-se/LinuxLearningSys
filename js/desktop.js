@@ -18,20 +18,22 @@ const Desktop = {
             <span class="path-text">${dir.path}</span>
           </div>
           <div class="desktop-actions">
-            <button class="desktop-btn" onclick="Desktop.goHome()" title="Home">🏠</button>
-            <button class="desktop-btn" onclick="Desktop.goUp()" title="Up">⬆</button>
-            <button class="desktop-btn" onclick="Desktop.refresh()" title="Refresh">🔄</button>
+            <button class="desktop-btn" data-action="home" title="Home">🏠</button>
+            <button class="desktop-btn" data-action="up" title="Up">⬆</button>
+            <button class="desktop-btn" data-action="refresh" title="Refresh">🔄</button>
           </div>
         </div>
         <div class="desktop-content">
           ${this.renderBreadcrumb(dir)}
-          <div class="desktop-grid">
+          <div class="desktop-grid" id="desktop-grid">
             ${this.renderDotDirs(dir)}
             ${dir.children.map(c => this.renderNode(c)).join('')}
           </div>
         </div>
       </div>
     `;
+
+    this.attachEvents();
   },
 
   renderBreadcrumb(dir) {
@@ -44,7 +46,7 @@ const Desktop = {
     return `
       <div class="desktop-breadcrumb">
         ${parts.map((p, i) => `
-          <span class="crumb" data-path="${p.path}">${p.isRoot ? '/' : p.name}</span>
+          <span class="crumb" data-path="${p.path}">${p.isRoot ? '/' : this.escapeHtml(p.name)}</span>
           ${i < parts.length - 1 ? '<span class="crumb-sep">/</span>' : ''}
         `).join('')}
       </div>
@@ -54,7 +56,7 @@ const Desktop = {
   renderDotDirs(dir) {
     if (dir.isRoot) return '';
     return `
-      <div class="desktop-item desktop-item-dir" onclick="Desktop.navigateTo('..')">
+      <div class="desktop-item desktop-item-dir" data-path="..">
         <div class="item-icon">📁</div>
         <div class="item-name">..</div>
         <div class="item-meta">parent directory</div>
@@ -65,7 +67,7 @@ const Desktop = {
   renderNode(node) {
     if (node.type === 'dir') {
       return `
-        <div class="desktop-item desktop-item-dir" ondblclick="Desktop.navigateTo('${node.name}')">
+        <div class="desktop-item desktop-item-dir" data-path="${node.name}">
           <div class="item-icon">📁</div>
           <div class="item-name">${this.escapeHtml(node.name)}</div>
           <div class="item-meta">${this.formatPerms(node)}</div>
@@ -82,12 +84,47 @@ const Desktop = {
 
     const execClass = node.isExecutable ? ' executable' : '';
     return `
-      <div class="desktop-item desktop-item-file${execClass}" title="Size: ${node.size} bytes | Mode: ${node.mode.toString(8)}">
+      <div class="desktop-item desktop-item-file${execClass}" data-path="${node.name}" title="Size: ${node.size} bytes | Mode: ${node.mode.toString(8)}">
         <div class="item-icon">${icon}</div>
         <div class="item-name">${this.escapeHtml(node.name)}${node.isExecutable ? '*' : ''}</div>
         <div class="item-meta">${this.formatPerms(node)}</div>
       </div>
     `;
+  },
+
+  attachEvents() {
+    const grid = document.getElementById('desktop-grid');
+    if (grid) {
+      grid.addEventListener('dblclick', (e) => {
+        const item = e.target.closest('.desktop-item-dir');
+        if (item && item.dataset.path) {
+          this.navigateTo(item.dataset.path);
+        }
+      });
+    }
+
+    const crumbs = this.element.querySelectorAll('.crumb');
+    crumbs.forEach(crumb => {
+      crumb.addEventListener('click', () => {
+        const path = crumb.dataset.path;
+        if (path) {
+          const target = VFS.resolve(path);
+          if (target instanceof FSDir) {
+            VFS.cwd = target;
+            this.render();
+          }
+        }
+      });
+    });
+
+    this.element.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        if (action === 'home') this.goHome();
+        else if (action === 'up') this.goUp();
+        else if (action === 'refresh') this.render();
+      });
+    });
   },
 
   navigateTo(path) {
@@ -96,7 +133,7 @@ const Desktop = {
   },
 
   goHome() {
-    VFS.cd('/home/user');
+    VFS.cwd = VFS.resolve('/home/user');
     this.render();
   },
 
@@ -105,10 +142,6 @@ const Desktop = {
       VFS.cwd = VFS.cwd.parent;
       this.render();
     }
-  },
-
-  refresh() {
-    this.render();
   },
 
   formatPerms(node) {
